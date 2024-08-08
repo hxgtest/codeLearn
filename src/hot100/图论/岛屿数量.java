@@ -6,6 +6,9 @@ package hot100.图论;
 //此外，你可以假设该网格的四条边均被水包围。
 
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class 岛屿数量 {
     public int numIslands(char[][] grid){
         int count=0;
@@ -31,5 +34,44 @@ public class 岛屿数量 {
         dfs(grid,x,y-1);
         dfs(grid,x+1,y);
         dfs(grid,x-1,y);
+    }
+    public int numIslands2(char[][] grid){
+
+        int count=0;
+        if(grid==null){
+            return 0;
+        }
+        for(int x=0;x<grid.length;x++){
+            for(int y=0;y<grid[0].length;y++){
+                if(grid[x][y]=='1'){
+                    count++;
+                    grid[x][y]='0';
+                    Queue<Integer> neighbors=new LinkedList<>();
+                    neighbors.add(x*grid[0].length+y);
+                    while(!neighbors.isEmpty()){
+                        int id=neighbors.remove();
+                        int row=id/grid[0].length;
+                        int column=id%grid[0].length;
+                        if(row-1>=0&&grid[row-1][column]=='1'){
+                            neighbors.add((row-1)*grid[0].length+column);
+                            grid[row-1][column]='0';
+                        }
+                        if(column-1>=0&&grid[row][column-1]=='1'){
+                            neighbors.add(row*grid[0].length+column-1);
+                            grid[row][column-1]='0';
+                        }
+                        if(row+1<grid.length&&grid[row+1][column]=='1'){
+                            neighbors.add((row+1)*grid[0].length+column);
+                            grid[row+1][column]='0';
+                        }
+                        if(column+1<grid[0].length&&grid[row][column+1]=='1'){
+                            neighbors.add(row*grid[0].length+column+1);
+                            grid[row][column+1]='0';
+                        }
+                    }
+                }
+            }
+        }
+        return count;
     }
 }

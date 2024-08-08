@@ -1,4 +1,8 @@
 package hot100.图论;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 //在给定的 m x n 网格 grid 中，每个单元格可以有以下三个值之一：
 //
 //值 0 代表空单元格；
@@ -8,6 +12,54 @@ package hot100.图论;
 //
 //返回 直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 -1
 public class 腐烂的橘子 {
+    public int orangesRotting2(int[][] grid){
+        int r=grid.length,c=grid[0].length;
+        Queue<int[]> queue=new LinkedList<>();
+        int count=0;
+        for(int x=0;x<r;x++){
+            for(int y=0;y<c;y++){
+                if(grid[x][y]==1){
+                    count++;
+                }else if(grid[x][y]==2){
+                    queue.add(new int[]{x,y});
+                }
+            }
+        }
+        int round=0;
+        while(count>0&&!queue.isEmpty()){
+            round++;
+            int size=queue.size();
+            for(int i=1;i<=size;i++){
+                int[] rott=queue.poll();
+                int x=rott[0];
+                int y=rott[1];
+                if(x-1>=0&&grid[x-1][y]==1){
+                    grid[x-1][y]=2;
+                    count--;
+                    queue.add(new int[]{x-1,y});
+                }
+                if(y-1>=0&&grid[x][y-1]==1){
+                    grid[x][y-1]=2;
+                    count--;
+                    queue.add(new int[]{x,y-1});
+                }
+                if(x+1<r&&grid[x+1][y]==1){
+                    grid[x+1][y]=2;
+                    count--;
+                    queue.add(new int[]{x+1,y});
+                }
+                if(y+1<c&&grid[x][y+1]==1){
+                    grid[x][y+1]=2;
+                    count--;
+                    queue.add(new int[]{x,y+1});
+                }
+            }
+        }
+        if(count>0){
+            return -1;
+        }
+        return round;
+    }
     public int orangesRotting(int[][] grid){
         int time=0,numNew=0;
         for(int x=0;x<grid.length;x++){
