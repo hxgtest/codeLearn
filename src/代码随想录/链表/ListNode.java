@@ -1,4 +1,4 @@
-package 代码随想录.栈;
+package 代码随想录.链表;
 
 public class ListNode {
       int val;
