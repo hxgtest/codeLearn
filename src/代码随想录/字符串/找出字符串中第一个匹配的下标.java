@@ -21,4 +21,29 @@ public class 找出字符串中第一个匹配的下标 {
         }
         return -1;
     }
+    public int strStr1(String haystack,String needle){
+        int[] next=new int[needle.length()+1];
+        int n=needle.length();
+        for(int j=2,i=0;j<=n;j++){
+            while(i>0&&needle.charAt(i)!=needle.charAt(j-1)){
+                i=next[i];
+            }
+            if(needle.charAt(i)==needle.charAt(j-1)){
+                i++;
+            }
+            next[j]=i;
+        }
+        for(int i=0,j=0;i<haystack.length();i++){
+            while(j>0&&haystack.charAt(i)!=needle.charAt(j)){
+                j=next[j];
+            }
+            if(haystack.charAt(i)==needle.charAt(j)){
+                j++;
+            }
+            if(j==needle.length()){
+                return i-j+1;
+            }
+        }
+        return -1;
+    }
 }
