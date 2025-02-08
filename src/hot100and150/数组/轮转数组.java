@@ -32,19 +32,64 @@ package hot100and150.数组;
 //尽可能想出更多的解决方案，至少有 三种 不同的方法可以解决这个问题。
 //你可以使用空间复杂度为 O(1) 的 原地 算法解决这个问题吗？
 public class 轮转数组 {
-    public void rotate(int[] nums,int k){
-        k=k%(nums.length);
-        reverse(nums,0,nums.length-1);
-        reverse(nums,0,k-1);
-        reverse(nums,k,nums.length-1);
+    public void rotate(int[] nums, int k) {
+        k=k%nums.length;
+        reverseArray(nums,0,nums.length-1);
+        reverseArray(nums,0,k-1);
+        reverseArray(nums,k,nums.length-1);
     }
-    public void reverse(int[] nums,int start,int end){
-        while(start<end){
-            int temp=nums[start];
-            nums[start]=nums[end];
-            nums[end]=temp;
-            start++;
-            end--;
+    public void reverseArray(int[] arrays,int left,int right){
+        int temp=0;
+        while(left<right){
+            temp=arrays[left];
+            arrays[left++]=arrays[right];
+            arrays[right--]=temp;
         }
     }
+    public void rotate2(int[] nums,int k){
+        int temp=0,n=nums.length;
+        int count=gcd(n,k);
+        for(int start=0;start<count;start++){
+            int current=start;
+            int prev=nums[start];
+            do {
+                int next=(start+k)%n;
+                temp=nums[next];
+                nums[next]=prev;
+                prev=temp;
+                current=next;
+            }while (current!=start);
+        }
+    }
+
+    public int gcd(int x,int y){
+        return y>0?gcd(y,x%y):x;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
