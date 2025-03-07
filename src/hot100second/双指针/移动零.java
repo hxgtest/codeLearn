@@ -1,4 +1,4 @@
-package hot100second.数组;
+package hot100second.双指针;
 
 /**
  * @author 12293
