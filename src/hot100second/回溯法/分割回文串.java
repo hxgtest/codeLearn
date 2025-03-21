@@ -38,7 +38,7 @@ public class 分割回文串 {
         }
         for(int j=i;j<n;j++){
             if(dp[i][j]){
-                ans.add(s.substring(i,j+1);
+                ans.add(s.substring(i,j+1));
                 backtrack(s,j+1);
                 ans.remove(ans.size()-1);
             }
