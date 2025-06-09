@@ -1,37 +1,38 @@
 import java.util.Scanner;
 
-// 注意类名必须为 Main, 不要有任何 package xxx 信息
 public class Main {
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        // 注意 hasNext 和 hasNextLine 的区别
-        while (in.hasNext()) { // 注意 while 处理多个 case
-            int t = in.nextInt();
-            while (t>0){
-                t--;
-                String s=in.nextLine();
-                int sLen=s.length();
-                int p=0;
-                StringBuilder sb=new StringBuilder();
-                char[] chars=s.toCharArray();
-                for(int n=0;n<chars.length;n++){
-                    if(chars[n]>='0'&&chars[n]<='9'){
-                        int i=chars[n]-'0';
-                        if(p==0){
-                            p=i;
-                        }else {
-                            p=p*10+i;
-                        }
-                    }else {
-                        String newS=chars.toString();
-                        newS= newS.substring(sLen-p&sLen+1,sLen)+newS.substring(0,sLen-p%sLen);
-                        chars=newS.toCharArray();
-                        if (chars[n]=='R'){
-
-                        }
-                    }
-                }
+        int t=in.nextInt();
+        int[] sum =new int[t];
+        int[] prefix=new int[1000001];
+        prefix[0]=0;
+        for(int i=1;i<1000001;i++){
+            if(check(i)){
+                prefix[i]=prefix[i-1]+1;
+            }else {
+                prefix[i]=prefix[i-1];
             }
         }
+        for(int i=0;i<t;i++){
+            int l=in.nextInt();
+            int r=in.nextInt();
+
+            sum[i]=prefix[r]-prefix[l-1];
+        }
+
+        for(int num: sum){
+            System.out.println(num);
+        }
+    }
+    static boolean check(int num){
+        int temp=num;
+        int count=0;
+        while (num>0){
+            count+=num%10;
+            num/=10;
+        }
+        return temp%count==1;
     }
 }
