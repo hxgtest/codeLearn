@@ -1,38 +1,33 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int t=in.nextInt();
-        int[] sum =new int[t];
-        int[] prefix=new int[1000001];
-        prefix[0]=0;
-        for(int i=1;i<1000001;i++){
-            if(check(i)){
-                prefix[i]=prefix[i-1]+1;
-            }else {
-                prefix[i]=prefix[i-1];
-            }
-        }
-        for(int i=0;i<t;i++){
-            int l=in.nextInt();
-            int r=in.nextInt();
+        // 测试 dailyTemperatures 方法
+        int[] temperatures = {73, 74, 75, 71, 69, 72, 76, 73};
+        int[] result = dailyTemperatures(temperatures);
 
-            sum[i]=prefix[r]-prefix[l-1];
-        }
-
-        for(int num: sum){
-            System.out.println(num);
+        // 输出结果
+        System.out.print("Result: ");
+        for (int r : result) {
+            System.out.print(r + " ");
         }
     }
-    static boolean check(int num){
-        int temp=num;
-        int count=0;
-        while (num>0){
-            count+=num%10;
-            num/=10;
+
+    public static int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        int[] ans = new int[n];
+        Deque<Integer> stack = new ArrayDeque<Integer>();
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && temperatures[stack.peek()] <= temperatures[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? 0 : stack.peek() - i;
+            stack.push(i);
         }
-        return temp%count==1;
+
+        return ans;
     }
 }
